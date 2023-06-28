@@ -1,6 +1,6 @@
 import requests
 import time
-from data import coins, years
+from data import symbols, years
 
 def fetch_market_cap(coin, date):
     url = f"https://api.coingecko.com/api/v3/coins/{coin}/history?date={date}&localization=false"
@@ -18,7 +18,7 @@ def fetch_market_cap(coin, date):
 
 market_cap_data = {}
 
-for coin in coins:
+for coin in symbols:
     data_per_year = []
     
     for year in years:
