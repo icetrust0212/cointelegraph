@@ -1,31 +1,39 @@
 import matplotlib.pyplot as plt
 import matplotlib.dates as Dates
 
-import datetime
-import math
+from data import data, years, symbols
 
+whole_data = {}
+
+def get_rank(array, value):
+    sorted_array = sorted(array)
+    return sorted_array.index(value) + 1
+for coin in data:
+    whole_data[coin] = []
+
+for index in range(0, 11):
+    market_data_year = []
+    for coin in data:
+        market_cap = data[coin][index]
+        market_data_year.append(market_cap)
+    
+    for coin in data:
+        market_cap = data[coin][index]
+        rank = get_rank(market_data_year, market_cap)
+        whole_data[coin].append(rank)
 
 # Add more cryptocurrencies and market cap data as needed
 plt.yscale = 0.1
 # Plot the chart
-plt.plot_date(years, bitcoin_market_cap, fmt='-', label='Bitcoin')
-plt.plot_date(years, ethereum_market_cap, fmt='-',label='Ethereum')
-plt.plot_date(years, bnb_market_cap, fmt='-',label='BNB')
-plt.plot_date(years, cardano_market_cap, fmt='-',label='Cardano')
-plt.plot_date(years, xrp_market_cap, fmt='-',label='XRP')
-plt.plot_date(years, dogecoin_market_cap, fmt='-',label='Dogecoin')
-
-plt.plot_date(years, tether_market_cap, fmt='-',label='USDT')
-plt.plot_date(years, usdc_market_cap, fmt='-',label='USDC')
-plt.plot_date(years, solana_market_cap, fmt='-',label='Solana')
-plt.plot_date(years, tron_market_cap, fmt='-',label='Tron')
-
-# Add more cryptocurrency lines as needed
+for coin in whole_data:
+    plt.plot(years, whole_data[coin], label=symbols[coin])
 
 # Customize the chart
 plt.title('Top 10 Cryptocurrencies - Market Capitalization')
 plt.xlabel('Year')
-plt.ylabel('Market Cap (in billions)')
+plt.xticks(years)
+plt.yticks(range(1, 11))
+plt.ylabel('Rank (Market Cap)')
 plt.legend()
 
 # Show the chart

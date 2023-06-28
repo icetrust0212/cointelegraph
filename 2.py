@@ -1,8 +1,6 @@
 import requests
 import time
-
-coins = ["bitcoin", "ethereum", "binancecoin", "cardano", "ripple", "dogecoin", "tether", "usd-coin", "solana", "tron"]
-years = [2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
+from data import coins, years
 
 def fetch_market_cap(coin, date):
     url = f"https://api.coingecko.com/api/v3/coins/{coin}/history?date={date}&localization=false"
@@ -18,7 +16,7 @@ def fetch_market_cap(coin, date):
     else:
         return 0
 
-market_cap_data = []
+market_cap_data = {}
 
 for coin in coins:
     data_per_year = []
@@ -36,7 +34,7 @@ for coin in coins:
     print(coin)
     print(data_per_year)
     print('\n')
-    market_cap_data.append(data_per_year)
+    market_cap_data[coin] = data_per_year
 
 
 print(market_cap_data)
