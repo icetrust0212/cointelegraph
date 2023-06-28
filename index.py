@@ -1,13 +1,13 @@
 import matplotlib.pyplot as plt
 import matplotlib.dates as Dates
-
+import math
 from data import data, years, symbols
 
 whole_data = {}
 
 def get_rank(array, value):
     sorted_array = sorted(array)
-    return sorted_array.index(value) + 1
+    return max(sorted_array.index(value) + 1 - len(sorted_array) + 10, 0)
 for coin in data:
     whole_data[coin] = []
 
@@ -26,7 +26,20 @@ for index in range(0, 11):
 plt.yscale = 0.1
 # Plot the chart
 for coin in whole_data:
-    plt.plot(years, whole_data[coin], label=symbols[coin])
+    coin_data = []
+    date = []
+    flag = False
+    for i in range(0, len(years)):
+        if whole_data[coin][i] > 0:
+            date.append(i + 2013)
+            coin_data.append(whole_data[coin][i])
+            flag = True
+        elif flag:
+            date.append(i + 2013)
+            coin_data.append(whole_data[coin][i])
+
+        
+    plt.plot(date, coin_data, label=symbols[coin])
 
 # Customize the chart
 plt.title('Top 10 Cryptocurrencies - Market Capitalization')
@@ -34,7 +47,7 @@ plt.xlabel('Year')
 plt.xticks(years)
 plt.yticks(range(1, 11))
 plt.ylabel('Rank (Market Cap)')
-plt.legend()
+plt.legend(loc=5, bbox_to_anchor=(1.1, 0.5))
 
 # Show the chart
 plt.show()
