@@ -9,9 +9,12 @@ def fetch_market_cap(coin, date):
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
-        market_data = data["market_data"]
-        market_cap = market_data["market_cap"]["usd"]
-        return market_cap
+        if "market_data" in data:
+            market_data = data["market_data"]
+            market_cap = market_data["market_cap"]["usd"]
+            return market_cap
+        else:
+            return 0
     else:
         return 0
 
